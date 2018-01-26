@@ -6,12 +6,23 @@
 #include<opencv2/opencv.hpp>
 #include<Gl>
 
+#include<stdio.h>
+
+void startMapping(Camera zed, sl::Pose pose, sl::Mesh mesh);
+
+bool mapping;  //Tracks if spatial mapping is occurring
+
 int main(){
 
     //Zed objects
     Camera zed;         //Camera object
     sl::Pose pose;      // Pose to hold positional tracking data
     sl::Mesh mesh;      // Mesh to hold the mesh generated during spatial mapping
+
+    std::chrono::high_resolution_clock::time_point t_last; //Last mesh update time
+
+
+    mapping = false;    //Set mapping to false before camera initializing
 
     // Set configuration parameters
     InitParameters init_params;
@@ -35,4 +46,20 @@ int main(){
         zed.close();
         return 1; // Quit if an error occurred
     }
+
+    RuntimeParameters runtime_parameters;
+    runtime_parameters.sensing_mode = SENSING_MODE_STANDARD;
+
+    startMapping(zed, pose, mesh, t_last);
+}
+
+//Start spatial mapping process
+void startMapping(Camera &zed, sl::Pose &pose, sl::Mesh &mesh, std::chrono::high_resolution_clock::time_point &t_last) {
+     mesh->clear();
+
+    // Enable positional tracking
+    zed->enableTracking();
+    // Enable spatial mapping
+    zed->enableSpatialMapping(spatial_mapping_params);
+    mapping = true;
 }
