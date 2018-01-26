@@ -8,6 +8,11 @@
 
 #include<stdio.h>
 
+sl::TRACKING_STATE tracking_state;  //Pose data
+bool mapping;
+
+void meshSync();
+
 int main(){
 
     //Zed objects
@@ -52,5 +57,25 @@ int main(){
     zed.enableSpatialMapping(spatial_mapping_params);
     mesh.clear();
     mapping = true;
-    
+
+    //Mesh Generation Thread
+
+}
+
+//Update the mesh
+void meshSync(Camera &zed, std::chrono::high_resolution_clock::time_point t_last, int duration) {
+    //Check if zed is grabbing images properly
+    if (zed.grab() == sl::SUCCESS) {
+        tracking_state = zed.getPosition(pose);
+
+        if (mapping) {
+            //Check time since last mesh sync
+            auto timeElapsed = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - t_last).count();
+
+            if (timeElapsed > duration) {
+                zed.requestMeshAsync();
+                t_last = std::chrono::high_resolution_clock::now();
+            }
+        }
+    }
 }
