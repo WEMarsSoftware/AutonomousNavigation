@@ -27,3 +27,11 @@ Node PathPlanner::generateNode(sl::Chunk chunk) {
 std::vector<Node> PathPlanner::findPath() {
 
 }
+
+std::vector<int> PathPlanner::getPath() {
+    //temp function
+}
+
+void PathPlanner::sendMesh() {
+
+}

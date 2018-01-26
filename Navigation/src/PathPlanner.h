@@ -22,6 +22,8 @@ public:
     float calculateCost(sl::Chunk chunk);
     Node generateNode(sl::Chunk chunk);
     std::vector<Node> findPath();
+    std::vector<int> getPath();    //Temp function
+    void sendMesh(sl::Mesh mesh);   //Retrieve mesh
 };
 
 #endif // !PATHPLANNER_H

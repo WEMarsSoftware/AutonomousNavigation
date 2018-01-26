@@ -11,7 +11,8 @@
 sl::TRACKING_STATE tracking_state;  //Pose data
 bool mapping;
 
-void meshSync();
+void meshSync(Camera &zed, std::chrono::high_resolution_clock::time_point t_last, int duration);
+void updatePath(sl::Mesh &mesh);
 
 int main(){
 
@@ -19,6 +20,8 @@ int main(){
     Camera zed;         //Camera object
     sl::Pose pose;      // Pose to hold positional tracking data
     sl::Mesh mesh;      // Mesh to hold the mesh generated during spatial mapping
+    std::vector<int> path;
+    PathPlanner::PathPlanner = new PathPlanner::PathPlanner();
 
     std::chrono::high_resolution_clock::time_point t_last; //Last mesh update time
 
@@ -58,6 +61,7 @@ int main(){
     mesh.clear();
     mapping = true;
 
+
     //Mesh Generation Thread
 
 }
@@ -78,4 +82,9 @@ void meshSync(Camera &zed, std::chrono::high_resolution_clock::time_point t_last
             }
         }
     }
+}
+
+//Updates current path
+void updatePath(sl::Mesh &mesh, std::vector<int> &path, PathPlanner::PathPlanner &pathObj) {
+    path = pathObj.getPath();
 }
