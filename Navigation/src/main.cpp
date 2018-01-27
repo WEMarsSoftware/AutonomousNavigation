@@ -1,30 +1,39 @@
+//WE Mars Mars Rover Navigation Team 2018
+
+//headers
 #include "PathPlanner.h"
 #include "Vision.h"
 
 #include<sl/Camera.hpp>
-#include<sl/Chunk.hpp>
+
 #include<opencv2/opencv.hpp>
-#include<Gl>
+
+// OpenGL includes
+#include <GL/glew.h>
+#include "GL/freeglut.h"
 
 #include<stdio.h>
+#include<math.h>
+
+#define USE_CHUNKS 1
 
 int main(){
 
     //Zed objects
-    Camera zed;         //Camera object
+    sl::Camera zed;         //Camera object
     sl::Pose pose;      // Pose to hold positional tracking data
     sl::Mesh mesh;      // Mesh to hold the mesh generated during spatial mapping
 
     std::chrono::high_resolution_clock::time_point t_last; //Last mesh update time
 
 
-    mapping = false;    //Tracks if spatial mapping is occurring
+    bool mapping = false;    //Tracks if spatial mapping is occurring
 
     // Set configuration parameters
-    InitParameters init_params;
-    init_params.camera_resolution = RESOLUTION_HD1080;
-    init_params.depth_mode = DEPTH_MODE_PERFORMANCE;
-    init_params.coordinate_units = UNIT_METER;
+    sl::InitParameters init_params;
+    init_params.camera_resolution = sl::RESOLUTION_HD1080;
+    init_params.depth_mode = sl::DEPTH_MODE_PERFORMANCE;
+    init_params.coordinate_units = sl::UNIT_METER;
     init_params.camera_fps = 100;
 
     // Configure Spatial Mapping and filtering parameters
@@ -36,15 +45,15 @@ int main(){
     spatial_mapping_params.use_chunk_only = true; // If we use chunks we do not need to keep the mesh consistent
 
     // Open the camera
-    ERROR_CODE err = zed.open(init_params);
-    if (err != SUCCESS) {
+    sl::ERROR_CODE err = zed.open(init_params);
+    if (err != sl::SUCCESS) {
         printf("%s\n", errorCode2str(err).c_str());
         zed.close();
         return 1; // Quit if an error occurred
     }
 
-    RuntimeParameters runtime_parameters;
-    runtime_parameters.sensing_mode = SENSING_MODE_STANDARD;
+    sl::RuntimeParameters runtime_parameters;
+    runtime_parameters.sensing_mode = sl::SENSING_MODE_STANDARD;
 
     // Enable positional tracking
     zed.enableTracking();
