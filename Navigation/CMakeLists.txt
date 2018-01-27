@@ -1,11 +1,8 @@
 SET(execName ZED_Navigation)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 PROJECT(${execName})
 
-if(COMMAND cmake_policy)
-	cmake_policy(SET CMP0003 OLD)
-	cmake_policy(SET CMP0015 OLD)
-endif(COMMAND cmake_policy)
+cmake_policy(VERSION 3.1)
 
 SET(EXECUTABLE_OUTPUT_PATH ".")
 
@@ -14,6 +11,7 @@ find_package(CUDA REQUIRED)
 find_package(GLUT REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(OpenGL REQUIRED)
+find_package(OpenCV REQUIRED)
 
 IF(NOT WIN32)
      SET(SPECIAL_OS_LIBS "pthread" "X11")
