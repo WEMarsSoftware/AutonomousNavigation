@@ -1,0 +1,25 @@
+int main() {
+	init();
+	startMapping();
+
+	Thread1 {
+		meshUpdate();
+	}
+
+	Thread2 {
+		getRoughness();
+		getHeight();
+		calculateCost();
+		findPath();
+	}
+
+	conditional {
+		Thread3 {
+		ballDetection();
+		}
+	}
+
+	stopMapping();
+	close();
+
+}
