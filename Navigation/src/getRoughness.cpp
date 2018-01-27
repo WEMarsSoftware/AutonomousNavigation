@@ -1,6 +1,6 @@
 // get roughness heuristic
 #include <cmath>
-#includ <algorithm>
+#include <algorithm>
 
 float avAngle(sl::Chunk chunk, float3 vertex, int v){
 	size_t N_tri = chunk.triangles.size();
