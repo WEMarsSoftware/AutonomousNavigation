@@ -21,7 +21,7 @@ private:
 public:
     PathPlanner();
     ~PathPlanner();
-	float PathPlanner::avAngle(sl::Chunk chunk, int v);
+	float avAngle(sl::Chunk chunk, int v);
     float getRoughness(sl::Chunk chunk,int v);
     float getHeight(sl::Chunk chunk);
     float calculateCost(sl::Chunk chunk);
